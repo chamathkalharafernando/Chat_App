@@ -1,3 +1,4 @@
+import 'package:chat_app/Pages/ChatPage.dart';
 import 'package:flutter/material.dart';
 
 class Homescreen extends StatefulWidget {
@@ -9,7 +10,7 @@ class Homescreen extends StatefulWidget {
 
 class _HomescreenState extends State<Homescreen>
     with SingleTickerProviderStateMixin {
-  late TabController _controller; // Use 'late' to avoid nullability issues
+  late TabController _controller;
 
   @override
   void initState() {
@@ -24,10 +25,41 @@ class _HomescreenState extends State<Homescreen>
         title: Text("WhatsApp"),
         actions: [
           IconButton(onPressed: () {}, icon: Icon(Icons.search)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.more_vert))
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              print(value);
+            },
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem<String>(
+                  value: "New Group",
+                  child: Text("New Group"),
+                ),
+                PopupMenuItem<String>(
+                  value: "New Broadcast",
+                  child: Text("New Broadcast"),
+                ),
+                PopupMenuItem<String>(
+                  value: "WhatsApp Web",
+                  child: Text("WhatsApp Web"),
+                ),
+                PopupMenuItem<String>(
+                  value: "Starred Messages",
+                  child: Text("Starred Messages"),
+                ),
+                PopupMenuItem<String>(
+                  value: "Settings",
+                  child: Text("Settings"),
+                ),
+              ];
+            },
+          )
         ],
         bottom: TabBar(
           controller: _controller,
+          indicatorColor: Colors.white,
+          // labelColor: Colors.white,
+          unselectedLabelColor: Colors.white,
           tabs: [
             Tab(icon: Icon(Icons.camera_alt)),
             Tab(text: "CHATS"),
@@ -40,7 +72,7 @@ class _HomescreenState extends State<Homescreen>
         controller: _controller,
         children: [
           Center(child: Icon(Icons.camera_alt, size: 50)),
-          Center(child: Text("Chats Page")),
+          ChatPage(),
           Center(child: Text("Status Page")),
           Center(child: Text("Calls Page")),
         ],
